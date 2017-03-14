@@ -164,12 +164,32 @@ global nmprofiler_check_jump_cop4:label;
 return ;
 	
 //-----------------------------------------------	
+// S_ProfilerData* nmprofiler_head();
+// Функция возвращает указатель на первую структуру профилирования в связном списке 
 global _nmprofiler_head:label;
 <_nmprofiler_head>
 	delayed return;
 		nul;
 		ar5 = [_nmprofiler_head_addr];
-	 
+
+//------------------------------------------------		
+// S_ProfilerData* nmprofiler_next(S_ProfilerData* p);
+// Функция возвращает указатель на следующую структуру профилирования после указанной
+global _nmprofiler_next:label;
+<_nmprofiler_next>
+	ar5 = ar7-2;
+	push ar0,gr0;
+	gr7 = [--ar5]; 	// head
+	gr0 = [gr7];	// [head->next]
+	gr7+= gr0;		// next head
+		pop ar0,gr0 with gr0;
+	if =0 delayed return;
+		ar5=0;
+
+	ar5 = gr7;
+	return;
+		
+		
 //-----------------------------------------------	 
 global _nmprofiler_reset:label;
 <_nmprofiler_reset>
@@ -194,21 +214,21 @@ global _nmprofiler_reset:label;
 	pop ar0,gr0;
 return;
 	
-//	global _nmprofiler_stop:label;
-//	<_nmprofiler_stop>
-//	return;
-
 //---------------------------------------------------	
+// подсчет кол-ва профилиуемых  функций 
 global _nmprofiler_count:label;
 <_nmprofiler_count>
 	push ar0,gr0;
-	ar0 = [_nmprofiler_head_addr] with gr7 = false;
+	gr0 = [_nmprofiler_head_addr] with gr7 = false;
+	ar0 = gr0 with gr0;
+	if =0 goto nmprofiler_count_finish; 
 	<next_profile_count>
 		gr0 = [ar0] with gr7++; 	// next=0
-		ar0 = gr0 with gr0;
+		ar0+= gr0 with gr0;
 	if <>0 delayed goto next_profile_count;
 		nul;
 		nul;
+	<nmprofiler_count_finish>
 	pop ar0,gr0;
 return;
 	
@@ -219,29 +239,34 @@ global _nmprofiler_copy:label;
 <_nmprofiler_copy>
 	ar5 = ar7-2;
 	push ar0,gr0;
-	push ar1,gr1;
+	push ar4,gr4;
+	push ar5,gr5;
 	push ar6,gr6;
 	
-	ar6 = [--ar5];
-	ar0 = [_nmprofiler_head_addr] with gr0 = false;
-	gr1 = [_nmprofiler_infosize];
-	<next_copy_profile>
-		gr7 = [ar0]; 				// next=0
-		ar5 = ar6;					// address of next field
-		gr0 = gr1;		
-		gr0--;
-		<copy_next_word>
-		if <>0 delayed goto copy_next_word;		
-			gr6 = [ar0++] with gr0--;
-			[ar6++] = gr6;
-		[ar5] = ar6;	// overwrite next field
-		with gr7;
-	if <>0 delayed goto next_copy_profile;
-		ar0 = gr7;
-		nul;
 
+	ar0 = [_nmprofiler_head_addr];	// src head
+	gr0 = [ar0];
+	ar6 = [--ar5]		with gr0;	// dst
+	if =0 delayed goto nmprofiler_copy_finish;
+		gr5 = [_nmprofiler_infosize] ;	 
+	<next_copy_profile>
+		ar4     = ar6	with gr7=gr5;	//infosize
+		[ar6++] = gr5	with gr7--;
+		ar5 = ar0+1 	with gr7--;
+		<copy_next_word>
+		if <>0 delayed goto copy_next_word with gr7--;		
+			gr6 = [ar5++];			// read
+			[ar6++] = gr6;			// write
+		gr0 = [ar0]; 				// next disp
+		with gr0;
+	if <>0 delayed goto next_copy_profile;
+		ar0+= gr0;
+		nul;
+	[ar4] = gr0;
+	<nmprofiler_copy_finish>
 	pop ar6,gr6;
-	pop ar1,gr1;
+	pop ar4,gr4;
+	pop ar5,gr5;
 	pop ar0,gr0;
 return;
 	
