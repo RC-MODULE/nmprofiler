@@ -1,12 +1,22 @@
-#include "pc_connector_mc5103.h"
+//#include "pc_connector_mc5103.h"
 #include "nm_io_host.h"
-class C_PC_Connector_mc5103_io: public C_PC_Connector_mc5103 {
+#include "mc5103load.h"
+#include "pc_connector_PL.h"
+
+class C_PC_Connector_mc5103_io {
 public:
+	PL_Access* access;
 	PL_Access* access_io;
 	NM_IO_Service *nmservice;
 
 	C_PC_Connector_mc5103_io(char* absfile=0){
 		Init(absfile);
+	}
+
+	int Sync(int val){
+		int ret;
+		PL_Sync(access,val,&ret);
+		return ret;
 	}
 
 	int Init(char* absfile){
