@@ -1,7 +1,8 @@
 //#include "pc_connector_mc5103.h"
 #include "nm_io_host.h"
 #include "mc5103load.h"
-#include "pc_connector_PL.h"
+//#include "pc_connector_PL.h"
+#define TRACE(text)		fprintf (stderr, text)
 
 class C_PC_Connector_mc5103_io {
 public:

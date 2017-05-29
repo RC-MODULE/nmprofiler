@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "pc_connector_mc5103_io.h"
 #include "crtdbg.h"
-
+#include "windows.h" // for Sleep()
 
 int main (int argc, char ** argv)
 {
@@ -14,7 +14,7 @@ int main (int argc, char ** argv)
 
 
 
-	Sleep(5000);
+	::Sleep(5000);
 	delete nmconnector.nmservice;
 	return 0;
 }
