@@ -44,7 +44,7 @@ profile:
 	
 run: $(TARGET)
 	-mc12101run $(TARGET) -t10000 --recv_file_name=profile.dat --recv_sect=.shared_profile --recv_size=0x1000 
-	lua $(ROOT)/script/profiledump2tbl.lua profile.dat
+	lua53 $(ROOT)/script/profiledump2tbl.lua profile.dat
 
 	
 clean:

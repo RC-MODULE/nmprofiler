@@ -43,8 +43,7 @@ profile:
 	tclsh $(ROOT)/script/generate_proflist.tcl ../proflist_generated.asm .main.map
 	
 run: $(TARGET)
-	-mc12101run $(TARGET) -q > profile.xml
-	xsltproc -o profile.html $(ROOT)/script/profile.xsl profile.xml
+	-mc12101run $(TARGET) -q 
 	
 clean:
 	-$(OS_RM) *.abs *.elf .*

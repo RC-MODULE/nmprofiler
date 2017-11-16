@@ -38,7 +38,8 @@ profile:
 
 	
 run: $(TARGET)
-	mb7707run $(TARGET) 
+	-mb7707run $(TARGET)  -t10000 --recv_file_name=profile.dat --recv_sect=.shared_profile --recv_size=0x1000 
+	lua53 $(ROOT)/script/profiledump2tbl.lua profile.dat
 		
 clean:
 	-$(OS_RM) *.abs *.elf .*
