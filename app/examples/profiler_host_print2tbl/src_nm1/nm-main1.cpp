@@ -41,7 +41,7 @@ extern "C"{
 int main()
 {
 	for(int i=0; i<20; i++){
-	printf("Hello %d from NMC[0]\n",i);	
+	printf("Hello %d from NMC[1]\n",i);	
 		func0();
 		func1();
 		func1();

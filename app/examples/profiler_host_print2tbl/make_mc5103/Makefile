@@ -20,8 +20,8 @@ HOST     = $(BOARD)-x86
 
 TARGET   = main0.abs
 INC_DIRS = -I"$(MC5103)/include" -I$(ROOT)/include -I"$(NEURO)/include" -I$(HAL)/include
-LIB_DIRS = -L"$(MC5103)/lib" -L$(NM_IO)/lib -L$(ROOT)/lib -L$(HAL)/lib -L.
-LIBS     = nm_io.lib libc05.lib mc5103lib.lib libint05.lib nmprofiler-nmc3.lib hal-mc5103.lib 
+LIB_DIRS = -L"$(MC5103)/lib" -L$(ROOT)/lib -L$(HAL)/lib -L.
+LIBS     = libc05.lib mc5103lib.lib libint05.lib nmprofiler-nmc3.lib hal-mc5103.lib 
 CFG      = mc5103brd.cfg
 SRC_CPP  = $(wildcard $(addsuffix /*.cpp,../src_nm0))
 SRC_ASM  = $(wildcard $(addsuffix /*.asm,../src_nm0))
