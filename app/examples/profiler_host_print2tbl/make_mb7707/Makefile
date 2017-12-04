@@ -4,25 +4,25 @@ include $(ROOT)/global.mk
 HEAP ?= -heap=6384 -heap1=16384 -heap2=16384 -heap3=16384
 # BUILD AND RUN MAKEFILE
 # This makefile builds simple nmc-application containing single cpp-file  
-# Rule 'run' executes the application on MC5103 board
+# Rule 'run' executes the application on MB7707 board and stores return code in ".exitcode"  file
 
 .SUFFIXES:
 
 
-ifndef MC5103
-$(error ERROR: 'MC5103' environment variable is not defined!  )
+ifndef MB7707
+$(error ERROR: 'MB7707' environment variable is not defined!  )
 endif 
 
 
-BOARD    = mc5103
+BOARD    = mb7707
 HOST     = $(BOARD)-x86
 
 
 TARGET   = main0.abs
-INC_DIRS = -I"$(MC5103)/include" -I$(ROOT)/include -I"$(NEURO)/include" -I$(HAL)/include
-LIB_DIRS = -L"$(MC5103)/lib" -L$(NM_IO)/lib -L$(ROOT)/lib -L$(HAL)/lib -L.
-LIBS     = nm_io.lib libc05.lib mc5103lib.lib libint05.lib nmprofiler-nmc3.lib hal-mc5103.lib 
-CFG      = mc5103brd.cfg
+INC_DIRS = -I$(ROOT)/include -I"$(NEURO)/include" -I$(HAL)/include
+LIB_DIRS = -L"$(MB7707)/lib" -L$(NM_IO)/lib -L$(ROOT)/lib -L$(HAL)/lib 
+LIBS     = nm_io.lib mb7707lib.lib libint05.lib nmprofiler-nmc3.lib hal-mb7707.lib 
+CFG      = mb7707brd.cfg
 SRC_CPP  = $(wildcard $(addsuffix /*.cpp,../src_nm0))
 SRC_ASM  = $(wildcard $(addsuffix /*.asm,../src_nm0))
 
@@ -36,15 +36,14 @@ profile: .main.map
 	tclsh $(ROOT)/script/generate_proflist.tcl proflist_generated.asm .main.map
 
 $(TARGET) .main.map: $(SRC_CPP) $(SRC_ASM) proflist_generated.asm Makefile $(CFG)
-	nmcc -o$(TARGET) -m.main.map $(SRC_CPP) $(SRC_ASM) proflist_generated.asm -nmc3 -g -O0 $(INC_DIRS) $(LIB_DIRS) $(LIBS) -c$(CFG) -heap=1024 -heap1=1024 -heap2=1024 -heap3=1024
+	nmcc -o$(TARGET) -m.main.map $(SRC_CPP) $(SRC_ASM) proflist_generated.asm -soc -g -O0 $(INC_DIRS) $(LIB_DIRS) $(LIBS) -c$(CFG) -heap=1024 -heap1=1024 -heap2=1024 -heap3=1024
 	
 proflist_generated.asm: 
 	tclsh $(ROOT)/script/generate_proflist.tcl proflist_generated.asm
 
-	
-PATH:=$(MC5103)/bin;$(PATH)	
-#---------------- user commands ----------------------	
-		
+
+PATH:=$(MB7707)/bin;$(PATH)
+
 run: $(TARGET) $(HOST)
 	bin\debug\$(HOST)
 	
