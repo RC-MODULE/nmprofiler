@@ -32,13 +32,13 @@ $(HOST): $(HOST).vcproj
 	"$(VS80COMNTOOLS)vsvars32" && vcbuild $(BOARD)-x86.vcproj
 
 profile: .main.map 
-	tclsh $(ROOT)/script/generate_proflist.tcl proflist_generated.asm .main.map
+	$(TCLSH) $(ROOT)/script/generate_proflist.tcl proflist_generated.asm .main.map
 
 $(TARGET) .main.map: $(SRC_CPP) $(SRC_ASM) proflist_generated.asm Makefile $(CFG)
 	nmcc -o$(TARGET) -m.main.map $(SRC_CPP) $(SRC_ASM) proflist_generated.asm -nmc4 -g -O0 $(INC_DIRS) $(LIB_DIRS) $(LIBS) -c$(CFG) -heap=16384 -heap1=16384 -heap2=16384 -heap3=16384
 	
 proflist_generated.asm: 
-	tclsh $(ROOT)/script/generate_proflist.tcl proflist_generated.asm
+	$(TCLSH) $(ROOT)/script/generate_proflist.tcl proflist_generated.asm
 
 	
 PATH:=$(MC12101)/bin;$(PATH)	

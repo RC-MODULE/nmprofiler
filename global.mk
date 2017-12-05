@@ -12,6 +12,7 @@ export  MB7707    ?=$(DEVKIT)/mb7707sdk
 export  NM_IO     ?=$(DEVKIT)/nm_io
 
 ifeq ($(OS),Windows_NT)
+   TCLSH    = tclsh86t
    SHELL    = cmd
    OS_MV    = cmd /c move /Y
    OS_RM    = cmd /c del /Q
