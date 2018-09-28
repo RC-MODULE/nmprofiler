@@ -10,7 +10,7 @@ solution "mc5103"
       language "C++"
       files { "**.h", "../src_pc/*.cpp", "../../../src/mc5103/*.cpp" }
 	  libdirs { "$(MC5103)/libload","$(HAL)/lib","../../../lib" }
-	  links { "mc5103load.lib","hal-mc5103io-x86.lib","mc5103-nmc3"} 
+	  links { "mc5103load.lib","hal-mc5103-x86.lib","mc5103-nmc3"} 
 	  includedirs { "$(MC5103)/include","$(HAL)/include","../../../include"}
 
       configuration "Debug"

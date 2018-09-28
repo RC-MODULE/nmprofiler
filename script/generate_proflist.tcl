@@ -13,13 +13,14 @@
 
 
 #======= список функций с нестандартным соглашанием о передаче параметров  (заключаются в PROFILE_NONSTD_FUNC )===========	
-set nonstd_funcs    "list FAdd Mul32 FMul IDiv32 UDiv32 FDiv IMod32 UMod32 LShift32 RShift32 ARShift32 ConvI64toF ConvU64toF"
+set nonstd_funcs   "list FAdd Mul32 FMul IDiv32 UDiv32 FDiv IMod32 UMod32 LShift32 RShift32 ARShift32 ConvI64toF ConvU64toF"
 #======= функции из этих секций не будут профилироваться ===================
 set exclude_sections ".text_nmvcore .text_profiler"
 #======= функции, начинающиеся с этих слов не будут профилироваться ================
 set exclude_prefixes "_realloc _nmprofiler __ _void._.8.8readNumber _void._C_Socket32 _C_Socket32"
 #======= функции со следущими именами не будут профилироваться   ===========
-set exclude_funcs "	start
+set exclude_funcs "
+					start
 					_void._.8.8swapBuffers.1.2 
 					_int._.0.8.8currBuffer
 					_int._.8.8inBuffer
@@ -51,6 +52,7 @@ set exclude_funcs "	start
 					_printf
 					_ncl_hostSync
 					_void0._.0.8.8alloc_somewhere.1void._.0.9._unsigned._int.9._class.__heap_control_block._.0.2
+					_void._.8.8completeMessage.1enum._NM_IO_ServiceID.9._int.2
 				"
 				
 set profile [lindex $argv 0]				
@@ -130,12 +132,12 @@ if { [file exists $mapfile] } {
 puts "PROFILING SECTIONS: "
 foreach section $text_section_list {
 	puts $section
-	#puts [lindex $section 0]
+	#puts "[lindex $section 0] [lindex $section 1] [lindex $section 2]"
 }
 
 puts "FUNCS: "
 foreach func $func_list {
-	puts $func
+	puts "found: $func "
 	#puts [lindex $section 0]
 }
 # удаляем ненужные символы
@@ -173,13 +175,16 @@ foreach func_info $func_list {
 		continue
 	}
 	
-	# проверяем что попадает в список профилирумых секций
+	# проверяем что попадает в список профилируемых секций
 	foreach section $text_section_list {
 		set addr_section_begin   [lindex $section 1]
 		set addr_section_end     [lindex $section 2]
 		if {[format "%u" [ expr (($addr_section_begin <=$func_addr) && ($func_addr<$addr_section_end)) ] ]} {
 			lappend prof_list $func_name
+			#puts "add: $func_name"
 			break
+		} else {
+			#puts "ignored: $func_name $func_addr"
 		}
 	}
 }

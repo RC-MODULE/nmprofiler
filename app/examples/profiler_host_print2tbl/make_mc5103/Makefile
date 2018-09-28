@@ -27,10 +27,25 @@ SRC_CPP  = $(wildcard $(addsuffix /*.cpp,../src_nm0))
 SRC_ASM  = $(wildcard $(addsuffix /*.asm,../src_nm0))
 
 
-all: $(TARGET) $(HOST) 
+all: $(TARGET) 
 
-$(HOST): $(HOST).vcproj
-	"$(VS80COMNTOOLS)vsvars32" && vcbuild $(BOARD)-x86.vcproj
+#vs2015
+
+	
+vs2005: $(HOST).vcproj 
+	"$(VS80COMNTOOLS)vsvars32" && vcbuild $(HOST).vcproj
+
+vs2015:	$(HOST).vcxproj
+	"$(VS140COMNTOOLS)vsvars32" && msbuild $(HOST).vcxproj /p:Configuration=Debug
+
+$(HOST).vcproj: premake5.lua 
+	premake5 vs2005
+
+$(HOST).vcxproj: premake5.lua 
+	premake5 vs2015
+
+
+	
 
 profile: .main.map 
 	$(TCLSH) $(ROOT)/script/generate_proflist.tcl proflist_generated.asm .main.map
@@ -45,7 +60,7 @@ proflist_generated.asm:
 PATH:=$(MC5103)/bin;$(PATH)	
 #---------------- user commands ----------------------	
 		
-run: $(TARGET) $(HOST)
+run: $(TARGET) vs2015
 	bin\debug\$(HOST)
 	
 clean:
@@ -54,7 +69,3 @@ clean:
 	
 kill: clean
 	-$(OS_RM) *.vcproj *.sln *.vcxproj  proflist_generated.asm
-	
-vs2005 $(HOST).vcproj:	premake5.lua 
-	premake5 vs2005
-	

@@ -215,7 +215,7 @@ global _nmprofiler_reset:label;
 return;
 	
 //---------------------------------------------------	
-// подсчет кол-ва профилиуемых  функций 
+// подсчет кол-ва профилируемых  функций 
 global _nmprofiler_count:label;
 <_nmprofiler_count>
 	push ar0,gr0;
