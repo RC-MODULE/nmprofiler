@@ -27,10 +27,11 @@ int main(){
 	#endif	
 
 	
-	::Sleep(10000);
+	//::Sleep(10000);
 	//halClose();								// close board, disconect from shared memory
 	::Sleep(1000);
 	printf("Return value:%X\n",sync);
+	halClose();
 	return 0;
 
 }

@@ -29,7 +29,7 @@ SRC_ASM  = $(wildcard $(addsuffix /*.asm,../src_nm0))
 
 all: $(TARGET) 
 
-#vs2015
+
 
 	
 vs2005: $(HOST).vcproj 
@@ -60,7 +60,7 @@ proflist_generated.asm:
 PATH:=$(MC5103)/bin;$(PATH)	
 #---------------- user commands ----------------------	
 		
-run: $(TARGET) vs2015
+run: $(TARGET) 
 	bin\debug\$(HOST)
 	
 clean:

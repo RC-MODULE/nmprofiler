@@ -10,7 +10,7 @@ solution "mb7707"
       language "C++"
       files { "**.h", "../src_pc/*.cpp", ROOT.."/src/mb7707/*.cpp" }
 	  libdirs { "$(MB7707)/libload","$(HAL)/lib",ROOT.."/lib"  }
-	  links { "mb7707load.lib","hal-mb7707io-x86.lib","mb7707-nmc3"} 
+	  links { "mb7707load.lib","hal-mb7707-x86.lib","mb7707-nmc3"} 
 	  includedirs { "$(MB7707)/include","$(HAL)/include",ROOT.."/include"}
 
       configuration "Debug"

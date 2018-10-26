@@ -4,7 +4,7 @@
 solution "mc12101"
    configurations { "Debug", "Release" }
 
-   -- A project defines one build target
+   -- A project defines one build target for NMPU1
    project "mc12101-x86"
       kind "ConsoleApp"
       language "C++"
@@ -14,12 +14,12 @@ solution "mc12101"
 	  includedirs { "$(MC12101)/include","$(HAL)/include","../../../include"}
 
       configuration "Debug"
-         defines { "DEBUG,NMPU1" }
+         defines { "DEBUG","NMPU1" }
          symbols  "On" 
 		 
 
       configuration "Release"
-         defines { "NDEBUG,NMPU1" }
+         defines { "NDEBUG","NMPU1" }
          symbols  "Off" 
 
 		 

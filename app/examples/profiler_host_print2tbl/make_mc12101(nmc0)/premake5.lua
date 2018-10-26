@@ -4,22 +4,23 @@
 solution "mc12101"
    configurations { "Debug", "Release" }
 
-   -- A project defines one build target
+   -- A project defines one build target for NMPU0
    project "mc12101-x86"
       kind "ConsoleApp"
       language "C++"
       files { "**.h", "../src_pc/*.cpp"}
 	  libdirs { "$(MC12101)/lib","$(HAL)/lib","../../../lib"}
-	  links { "mc12101load.lib","hal-mc12101io-x86.lib","mc12101-nmc4-0"} 
+	  links { "mc12101load.lib","hal-mc12101-x86.lib","mc12101-nmc4-0"} 
 	  includedirs { "$(MC12101)/include","$(HAL)/include","../../../include"}
 
+	  
       configuration "Debug"
-         defines { "DEBUG" }
+         defines { "DEBUG","NMPU0" }
          symbols  "On" 
 		 
 
       configuration "Release"
-         defines { "NDEBUG" }
+         defines { "NDEBUG","NMPU0" }
          symbols  "Off" 
 
 		 
