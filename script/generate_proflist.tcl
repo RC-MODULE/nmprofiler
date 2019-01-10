@@ -200,7 +200,7 @@ puts $asmfileid {
 // It is recommended to remove  all unnecessary functions to make profiling more precise.
 //****************************************************************************************
 import from nmprofiler.mlb;
-
+begin ".text_nmprofiler"
 PROFILE_BEGIN(16);
 
 }
@@ -219,5 +219,6 @@ foreach func_name $prof_list {
 
 puts $asmfileid {
 PROFILE_END();
+end ".text_nmprofiler";
 }
 close $asmfileid
