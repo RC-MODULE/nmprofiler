@@ -21,9 +21,9 @@ int main(){
 	
 	unsigned sync=-1;
 	#ifdef NMPU1
-	//halGetResult(&sync,1);					// get return value (0x600D)
+	halGetResult(&sync,1);					// get return value (0x600D)
 	#else 	
-	//halGetResult(&sync);					// get return value (0x600D)
+	halGetResult(&sync);					// get return value (0x600D)
 	#endif	
 
 	
