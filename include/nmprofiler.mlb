@@ -23,7 +23,7 @@
 // sizeof = 16
 macro PROFILE_BEGIN(MAXFUNCLEN)
 const MAX_FUNCNAME_LEN=MAXFUNCLEN;
-begin ".text_nmprofiler"
+//begin ".text_nmprofiler"
 	
 	global _nmprofiler_init			:label;
 	extern _clock					:label; 
@@ -72,7 +72,7 @@ macro PROFILE_END() 			// On enter: gr7=profiler
 		[_nmprofiler_head_addr]=gr7;
 	
 			
-end ".text_nmprofiler";
+//end ".text_nmprofiler";
 	
 end PROFILE_END;		
 	
